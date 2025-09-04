@@ -1,0 +1,53 @@
+def display_menu():
+    print("\nSimple Calculator")
+    print("1. Addition (+)")
+    print("2. Subtraction (-)")
+    print("3. Multiplication (*)")
+    print("4. Division (/)")
+    print("5. Exit")
+
+def calculate(num1, num2, operation):
+    if operation == "1":
+        return num1 + num2, "+"
+    elif operation == "2":
+        return num1 - num2, "-"
+    elif operation == "3":
+        return num1 * num2, "*"
+    elif operation == "4":
+        if num2 == 0:
+            return None, "/"
+        return num1 / num2, "/"
+    else:
+        return None, None
+
+def main():
+    while True:
+        display_menu()
+        choice = input("\nEnter your operation choice (1-5): ")
+        
+        if choice == "5":
+            print("\nExiting Calculator. Goodbye!")
+            break
+        
+        if choice not in ["1", "2", "3", "4"]:
+            print("\nInvalid choice. Please enter a number between 1 and 5.")
+            continue
+        
+        try:
+            num1 = float(input("\nEnter first number: "))
+            num2 = float(input("Enter second number: "))
+            
+            result, operator = calculate(num1, num2, choice)
+            
+            if result is None and operator == "/":
+                print("\nError: Division by zero is not allowed.")
+            elif result is not None and operator is not None:
+                print(f"\nResult: {num1} {operator} {num2} = {result}")
+            else:
+                print("\nInvalid operation.")
+                
+        except ValueError:
+            print("\nPlease enter valid numbers.")
+
+if __name__ == "__main__":
+    main()
