@@ -1,0 +1,48 @@
+import random
+import string
+
+def generate_password(length, use_uppercase=True, use_lowercase=True, use_digits=True, use_special=True):
+    # Define character sets
+    uppercase = string.ascii_uppercase if use_uppercase else ''
+    lowercase = string.ascii_lowercase if use_lowercase else ''
+    digits = string.digits if use_digits else ''
+    special = string.punctuation if use_special else ''
+    
+    # Combine all selected character sets
+    all_characters = uppercase + lowercase + digits + special
+    
+    # Ensure at least one character type is selected
+    if not all_characters:
+        raise ValueError("At least one character type must be selected")
+    
+    # Generate password
+    password = ''.join(random.choice(all_characters) for _ in range(length))
+    
+    return password
+
+def main():
+    try:
+        # Prompt user for password length
+        length = int(input("Enter the desired password length: "))
+        
+        # Validate length
+        if length < 1:
+            raise ValueError("Password length must be at least 1")
+        
+        # Prompt user for character type preferences
+        use_uppercase = input("Include uppercase letters? (y/n): ").lower() == 'y'
+        use_lowercase = input("Include lowercase letters? (y/n): ").lower() == 'y'
+        use_digits = input("Include digits? (y/n): ").lower() == 'y'
+        use_special = input("Include special characters? (y/n): ").lower() == 'y'
+        
+        # Generate and display password
+        password = generate_password(length, use_uppercase, use_lowercase, use_digits, use_special)
+        print(f"\nGenerated Password: {password}")
+        
+    except ValueError as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+if __name__ == "__main__":
+    main()
