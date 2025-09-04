@@ -1,0 +1,82 @@
+# To-Do List Application
+
+def display_menu():
+    print("\nTo-Do List Application")
+    print("1. View all tasks")
+    print("2. Add a task")
+    print("3. Update a task")
+    print("4. Delete a task")
+    print("5. Exit")
+
+def view_tasks(tasks):
+    if not tasks:
+        print("\nNo tasks in the list.")
+    else:
+        print("\nYour Tasks:")
+        for i, task in enumerate(tasks, 1):
+            status = "Done" if task["completed"] else "Pending"
+            print(f"{i}. {task['description']} - {status}")
+
+def add_task(tasks, description):
+    tasks.append({"description": description, "completed": False})
+    print(f"\nTask '{description}' added successfully.")
+
+def update_task(tasks, index, description=None, completed=None):
+    if 1 <= index <= len(tasks):
+        if description:
+            tasks[index-1]["description"] = description
+            print(f"\nTask {index} description updated.")
+        if completed is not None:
+            tasks[index-1]["completed"] = completed
+            print(f"\nTask {index} status updated to {'Done' if completed else 'Pending'}.")
+    else:
+        print("\nInvalid task number.")
+
+def delete_task(tasks, index):
+    if 1 <= index <= len(tasks):
+        removed_task = tasks.pop(index-1)
+        print(f"\nTask '{removed_task['description']}' deleted.")
+    else:
+        print("\nInvalid task number.")
+
+def main():
+    tasks = []
+    while True:
+        display_menu()
+        choice = input("\nEnter your choice (1-5): ")
+        
+        if choice == "1":
+            view_tasks(tasks)
+        elif choice == "2":
+            description = input("\nEnter task description: ")
+            add_task(tasks, description)
+        elif choice == "3":
+            view_tasks(tasks)
+            try:
+                index = int(input("\nEnter task number to update: "))
+                action = input("Update (1) description or (2) status? Enter 1 or 2: ")
+                if action == "1":
+                    description = input("Enter new description: ")
+                    update_task(tasks, index, description=description)
+                elif action == "2":
+                    status = input("Mark as (1) Done or (2) Pending? Enter 1 or 2: ")
+                    update_task(tasks, index, completed=(status == "1"))
+                else:
+                    print("\nInvalid action.")
+            except ValueError:
+                print("\nPlease enter a valid number.")
+        elif choice == "4":
+            view_tasks(tasks)
+            try:
+                index = int(input("\nEnter task number to delete: "))
+                delete_task(tasks, index)
+            except ValueError:
+                print("\nPlease enter a valid number.")
+        elif choice == "5":
+            print("\nExiting To-Do List Application. Goodbye!")
+            break
+        else:
+            print("\nInvalid choice. Please enter a number between 1 and 5.")
+
+if __name__ == "__main__":
+    main()
